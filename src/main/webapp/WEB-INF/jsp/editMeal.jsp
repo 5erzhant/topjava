@@ -2,12 +2,12 @@
 <jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
 <html>
 <head>
-    <title>Edit</title>
+    <title>${meal.id == 0 ? 'Add' : 'Edit'}</title>
 </head>
 <body>
 <h3><a href="index.html">Home</a></h3>
 <hr>
-<h1>Edit meal</h1>
+<h1>${meal.id == 0 ? 'Add' : 'Edit'} meal</h1>
 
 <form method="post" action="meals" enctype="application/x-www-form-urlencoded">
     <table>
@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td>Calories:</td>
-            <td><input type="text" name="calories" size=30 required value="${meal.calories}"></td>
+            <td><input type="number" name="calories" size=30 required value="${meal.calories}"></td>
         </tr>
     </table>
     <button type="submit">Сохранить</button>
