@@ -26,7 +26,7 @@
         <c:set var="date" value="${meal.dateTime}"/>
         <jsp:useBean id="date" type="java.time.LocalDateTime"/>
         <tr style="color: ${color}">
-            <td><%=TimeUtil.format(date)%></td>
+            <td>${TimeUtil.format(date)}</td>
             <td>${meal.description}</td>
             <td>${meal.calories}</td>
             <td><a href="meals?action=update&id=${meal.id}">Update</a></td>

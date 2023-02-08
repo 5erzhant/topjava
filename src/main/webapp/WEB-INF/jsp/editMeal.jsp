@@ -1,17 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>${meal.id == 0 ? 'Add' : 'Edit'}</title>
+    <title>
+        <c:set var="type" value="${meal.id == 0 ? 'Add' : 'Update'}"/>
+        <c:out value="${type}"/>
+    </title>
 </head>
 <body>
 <h3><a href="index.html">Home</a></h3>
 <hr>
-<h1>${meal.id == 0 ? 'Add' : 'Edit'} meal</h1>
+<h1>${type} meal</h1>
 
 <form method="post" action="meals" enctype="application/x-www-form-urlencoded">
     <table>
-        <input type="hidden" name="id" value="${meal.id}">
+        <input type="hidden" name="id" value="${meal.id != 0 ? meal.id : 'null'}">
         <tr>
             <td>DateTime:</td>
             <td><input type="datetime-local" name="date" size=30 required value="${meal.dateTime}"></td>
@@ -26,7 +30,7 @@
         </tr>
     </table>
     <button type="submit">Сохранить</button>
-    <button onclick="window.history.back()">Отменить</button>
+    <button onclick="window.history.back()" type="button">Отменить</button>
 </form>
 </body>
 </html>
