@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>
-        <c:set var="type" value="${meal.id == 0 ? 'Add' : 'Update'}"/>
+        <c:set var="type" value="${meal.id == null ? 'Add' : 'Update'}"/>
         <c:out value="${type}"/>
     </title>
 </head>
@@ -15,7 +15,7 @@
 
 <form method="post" action="meals" enctype="application/x-www-form-urlencoded">
     <table>
-        <input type="hidden" name="id" value="${meal.id != 0 ? meal.id : 'null'}">
+        <input type="hidden" name="id" value="${meal.id}">
         <tr>
             <td>DateTime:</td>
             <td><input type="datetime-local" name="date" size=30 required value="${meal.dateTime}"></td>

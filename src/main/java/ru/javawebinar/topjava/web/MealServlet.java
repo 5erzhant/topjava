@@ -5,7 +5,6 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.storage.MealStorage;
 import ru.javawebinar.topjava.storage.MemoryMealStorage;
-import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -73,9 +72,9 @@ public class MealServlet extends HttpServlet {
         String description = request.getParameter("description");
         int calories = Integer.parseInt(request.getParameter("calories"));
         Meal meal = new Meal(date, description, calories);
-        if (id.equals("null")) {
+        if (id.equals("")) {
             log.debug("meal save to storage");
-            storage.save(meal);
+            storage.create(meal);
         } else {
             meal.setId(Integer.parseInt(id));
             log.debug("meal update in storage");

@@ -5,7 +5,7 @@ import ru.javawebinar.topjava.model.Meal;
 import java.util.List;
 
 public interface MealStorage {
-    Meal save(Meal meal);
+    Meal create(Meal meal);
 
     Meal get(int id);
 

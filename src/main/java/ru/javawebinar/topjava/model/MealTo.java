@@ -17,7 +17,7 @@ public class MealTo {
         this.excess = excess;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
