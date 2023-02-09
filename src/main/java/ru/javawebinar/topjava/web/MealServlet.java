@@ -72,7 +72,7 @@ public class MealServlet extends HttpServlet {
         String description = request.getParameter("description");
         int calories = Integer.parseInt(request.getParameter("calories"));
         Meal meal = new Meal(date, description, calories);
-        if (id.equals("")) {
+        if (id.isEmpty()) {
             log.debug("meal save to storage");
             storage.create(meal);
         } else {
