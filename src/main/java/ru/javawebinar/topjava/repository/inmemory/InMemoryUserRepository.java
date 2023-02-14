@@ -18,7 +18,7 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public boolean delete(int id) {
-        return isExist(id) && repository.remove(id) != null;
+        return repository.remove(id) != null;
     }
 
     @Override
@@ -28,12 +28,12 @@ public class InMemoryUserRepository implements UserRepository {
             repository.put(user.getId(), user);
             return user;
         }
-        return isExist(user.getId()) ? repository.computeIfPresent(user.getId(), (id, oldUser) -> user) : null;
+        return repository.computeIfPresent(user.getId(), (id, oldUser) -> user);
     }
 
     @Override
     public User get(int id) {
-        return isExist(id) ? repository.get(id) : null;
+        return repository.get(id);
     }
 
     @Override
@@ -52,9 +52,5 @@ public class InMemoryUserRepository implements UserRepository {
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst()
                 .orElse(null);
-    }
-
-    private boolean isExist(int id) {
-        return repository.containsKey(id);
     }
 }

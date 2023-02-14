@@ -11,18 +11,22 @@ import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.util.List;
 
+import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserCaloriesPerDay;
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 
 @Controller
 public class MealRestController {
     private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private MealService service;
 
-    public void save(Meal meal) {
-        log.info("Save {}", meal);
-        service.save(meal, authUserId());
+    public Meal create(Meal meal) {
+        log.info("Create {}", meal);
+        checkNew(meal);
+        return service.create(meal, authUserId());
     }
 
     public void delete(int id) {
@@ -35,7 +39,9 @@ public class MealRestController {
         return service.get(id, authUserId());
     }
 
-    public void update(Meal meal) {
+    public void update(Meal meal, int id) {
+        log.info("Update {} with id={}", meal, id);
+        assureIdConsistent(meal, id);
         service.update(meal, authUserId());
     }
 
