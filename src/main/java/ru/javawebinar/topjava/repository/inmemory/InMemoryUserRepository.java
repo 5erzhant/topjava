@@ -1,14 +1,9 @@
 package ru.javawebinar.topjava.repository.inmemory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.javawebinar.topjava.model.AbstractNamedEntity;
-import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -23,34 +18,30 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public boolean delete(int id) {
-        return repository.remove(id) != null;
+        return isExist(id) && repository.remove(id) != null;
     }
 
     @Override
     public User save(User user) {
         if (user.isNew()) {
-            if (getByEmail(user.getEmail()) == null) {
-                user.setId(counter.incrementAndGet());
-                repository.put(user.getId(), user);
-                return user;
-            } else {
-                return null;
-            }
+            user.setId(counter.incrementAndGet());
+            repository.put(user.getId(), user);
+            return user;
         }
-        return getByEmail(user.getEmail()) == user ?
-                repository.computeIfPresent(user.getId(), (id, oldUser) -> user) : null;
+        return isExist(user.getId()) ? repository.computeIfPresent(user.getId(), (id, oldUser) -> user) : null;
     }
 
     @Override
     public User get(int id) {
-        return repository.get(id);
+        return isExist(id) ? repository.get(id) : null;
     }
 
     @Override
     public List<User> getAll() {
         return repository.values()
                 .stream()
-                .sorted(Comparator.comparing((AbstractNamedEntity::getName)))
+                .sorted(Comparator.comparing(User::getName)
+                        .thenComparing(User::getEmail))
                 .collect(Collectors.toList());
     }
 
@@ -58,8 +49,12 @@ public class InMemoryUserRepository implements UserRepository {
     public User getByEmail(String email) {
         return repository.values()
                 .stream()
-                .filter((user) -> user.getEmail().equals(email))
+                .filter(user -> user.getEmail().equals(email))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private boolean isExist(int id) {
+        return repository.containsKey(id);
     }
 }
