@@ -1,5 +1,5 @@
 
-https://app.codacy.com/gh/5erzhant/topjava/settings
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/beeb32a6c22f4568a409c8d7058b5dc8)](https://app.codacy.com/gh/5erzhant/topjava/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 Java Enterprise Online Project 
 ===============================
