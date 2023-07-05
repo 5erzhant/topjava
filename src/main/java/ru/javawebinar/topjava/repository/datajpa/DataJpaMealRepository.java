@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public class DataJpaMealRepository implements MealRepository {
-
     private final CrudMealRepository crudRepository;
 
     public DataJpaMealRepository(CrudMealRepository crudRepository) {
@@ -18,22 +17,24 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        return null;
+        Meal userMeal = crudRepository.save(meal);
+        return userMeal != null && get(userMeal.getId(), userId) != null ? meal : null;
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        return false;
+        return crudRepository.delete(id, userId) != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        return null;
+        Meal meal = crudRepository.findById(id).orElse(null);
+        return meal != null && meal.getUser().getId() == userId ? meal : null;
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return null;
+        return crudRepository.findAll(userId);
     }
 
     @Override
